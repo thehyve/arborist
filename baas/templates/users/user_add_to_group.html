@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}{% load i18n %}
+
+{% block title %}Members{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Give user access to {{ view.study_name }}</h2>
+
+    {% with view.has_access as has_rights %}
+    <div class="list-group">
+        {% for user in user_list %}
+            {% if user not in has_rights %}
+                <a href="{% url 'users:update_group' view.study.slug user.username %}" class="list-group-item">
+                  <h4 class="list-group-item-heading">{{ user.username }}</h4>
+                </a>
+            {% else %}
+                <a class="list-group-item" aria-disabled="true">
+                  <h4 class="list-group-item-heading">{{ user.username }}</h4>
+                </a>
+            {% endif %}
+        {% endfor %}
+      {% endwith %}
+    </div>
+
+</div>
+
+{% endblock content %}

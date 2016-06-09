@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Study Tree Files{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>List of Projects</h2>
+    <div class="list-group">
+        {% for study in study_list %}
+          <a href="{% url 'trees:detail_list' study.slug %}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ study.name }}</h4>
+          </a>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Add Treefile {% endblock %}
+
+{% block content %}
+    <h1>Tree add form</h1>
+        <!-- Upload form. Note enctype attribute! -->
+        <form class="form-horizontal" action="{% url 'trees:add' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form_study|crispy }}
+            {{ form_tree|crispy }}
+            <p><input type="submit" class="btn" value="Upload"/></p>
+        </form>
+{% endblock %}
+

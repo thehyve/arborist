@@ -1,0 +1,97 @@
+p#breadcrumb {
+  font-family: 'Fjalla One', serif;
+}
+legend {
+  font-size: 1.4em;
+  text-align: center;
+}
+div#content {
+  min-height: 500px;
+}
+div#footer {
+  font-style: italic;
+  text-align: center;
+  padding-top: 5px;
+  font-family: 'Fjalla One', serif;
+  color: #555;
+  float: none;
+}
+ul.folderlist {
+  list-style: none;
+  padding-left: 10px;
+}
+ul.folderlist li img {
+  padding: 4px 0px 0px 0px;
+}
+html {
+  height: 80%;
+}
+body, div.container {
+  height: 100%;
+}
+div#treeanddetails {
+  border: 1px solid silver;
+  height: 100%;
+}
+div#treediv {
+  overflow: scroll;
+  width: 60%;
+  height: 100%;
+  float: left;
+}
+div#details {
+  width: 40%;
+  height: 100%;
+  float: right;
+  position: relative;
+}
+div#bottom-btns {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+}
+form.blockform label {
+  text-align: right;
+  width: 140px;
+  padding-right: 5px;
+}
+input[type=text], select {
+  float: center;
+  width: 200px;
+}
+input[type=text][disabled], select[disabled] {
+  border-color: #eee;
+}
+select {
+  /* With above hackary selects are 2px smaller than input texts */
+  width: 277px;
+}
+fieldset p {
+  clear: both;
+  padding: 5px;
+}
+fieldset input[type=submit] {
+  float: right;
+}
+li.error {
+  background: url('/static/arborist/img/message/error.png') no-repeat left top;
+  padding: 0px 0px 0px 20px;
+  list-style: none;
+}
+li.warning {
+  background: url('/static/arborist/img/message/warning.png') no-repeat left top;
+  padding: 0px 0px 0px 20px;
+  list-style: none;
+}
+li.message {
+  background: url('/static/arborist/img/message/info.png') no-repeat left top;
+  padding: 0px 0px 0px 20px;
+  list-style: none;
+}
+input[type=text].tag_title {
+  width: 40px;
+}
+::-webkit-scrollbar {
+    display: none;
+}
