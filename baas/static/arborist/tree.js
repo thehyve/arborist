@@ -44,21 +44,8 @@ $(function () {
     $.ajax({
           method: "POST",
           contentType: "application/json",
-          url: "{{ url_for('shutdown', mapfile=studiesfolder) }}",
+          url: shutdown_url,
           data: tree
-        })
-        .done(function (msg) {
-          console.log("Data Saved: " + msg.feedback.infos);
-          document.getElementById("feedbacksave").innerHTML = '<ul class="feedback" id="feedbacklist"></ul>';
-          for (i = 0; i < msg.feedback.errors.length; i++) {
-            $("#feedbacklist").append("<li class='error'>" + msg.feedback.errors[i] + "</li>");
-          }
-          for (i = 0; i < msg.feedback.warnings.length; i++) {
-            $("#feedbacklist").append("<li class='warning'>" + msg.feedback.warnings[i] + "</li>");
-          }
-          for (i = 0; i < msg.feedback.infos.length; i++) {
-            $("#feedbacklist").append("<li class='message'>" + msg.feedback.infos[i] + "</li>");
-          }
         })
         .fail(function () {
           document.getElementById("feedbacksave").innerHTML = '<ul class="feedback" id="feedbacklist"></ul>';
@@ -271,7 +258,7 @@ $('#treediv')
 
       "types": {
         "default": {
-          "icon": "/static/arborist/img/tree/folder.gif",
+          "icon": "/static/images/tree/folder.gif",
           "valid_children": ["alpha",
             "numeric",
             "highdim",
@@ -281,32 +268,32 @@ $('#treediv')
             "tag"]
         },
         "study": {
-          "icon": "/static/arborist/img/tree/study.png",
+          "icon": "/static/images/tree/study.png",
           "valid_children": "all"
         },
         "alpha": {
-          "icon": "/static/arborist/img/tree/alpha.gif",
+          "icon": "/static/images/tree/alpha.gif",
           "valid_children": ["tag"]
         },
         "categorical": {
           "max_depth": "2",
-          "icon": "/static/arborist/img/tree/folder.gif",
+          "icon": "/static/images/tree/folder.gif",
           "valid_children": ["alpha", "tag"]
         },
         "numeric": {
-          "icon": "/static/arborist/img/tree/numeric.gif",
+          "icon": "/static/images/tree/numeric.gif",
           "valid_children": ["tag"]
         },
         "highdim": {
-          "icon": "/static/arborist/img/tree/dna_icon.png",
+          "icon": "/static/images/tree/dna_icon.png",
           "valid_children": ["tag"]
         },
         "tag": {
-          "icon": "/static/arborist/img/tree/tag_icon.png",
+          "icon": "/static/images/tree/tag_icon.png",
           "valid_children": "none"
         },
         "codeleaf": {
-          "icon": "/static/arborist/img/tree/code.png",
+          "icon": "/static/images/tree/code.png",
           "valid_children": ["alpha", "tag"]
         },
       },

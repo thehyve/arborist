@@ -75,17 +75,17 @@ fieldset input[type=submit] {
   float: right;
 }
 li.error {
-  background: url('/static/arborist/img/message/error.png') no-repeat left top;
+  background: url('/static/images/message/error.png') no-repeat left top;
   padding: 0px 0px 0px 20px;
   list-style: none;
 }
 li.warning {
-  background: url('/static/arborist/img/message/warning.png') no-repeat left top;
+  background: url('/static/images/message/warning.png') no-repeat left top;
   padding: 0px 0px 0px 20px;
   list-style: none;
 }
 li.message {
-  background: url('/static/arborist/img/message/info.png') no-repeat left top;
+  background: url('/static/images/message/info.png') no-repeat left top;
   padding: 0px 0px 0px 20px;
   list-style: none;
 }
