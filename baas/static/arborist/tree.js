@@ -73,8 +73,6 @@ $("form#datanodedetails").submit(function (e) {
     var text = $("input[name='datalabel']").val();
     var updated = $("#treediv").jstree('rename_node', node, text);
     var type = $("select[name='nodetype']").val();
-    $("#treediv").jstree('set_type', node, type);
-    enableRightFields(type);
 
     if (typeof node.data == 'undefined') {
       node.data = {}
@@ -86,6 +84,18 @@ $("form#datanodedetails").submit(function (e) {
     node.data['Control Vocab Cd'] = $("input[name='controlvocabcd']").val();
     if (updated) {
       feedback("Successfully applied", false)
+
+      // If the node text starts with OMIT, change the type (and icon)
+      if (text.startsWith(('SUBJ_ID', 'OMIT')) & (type == 'categorical' | type == 'numeric')) {
+        type = 'codeleaf';
+      // If changed from SUBJ_ID or OMIT to regular, change type back to original
+      } else if (type == 'codeleaf' & !text.startsWith(('SUBJ_ID', 'OMIT'))) {
+        type = node.data['ctype'];
+      }
+
+      $("#treediv").jstree('set_type', node, type);
+      enableRightFields(type);
+
     }
   } else {
     feedback("No node selected", true)
@@ -93,7 +103,7 @@ $("form#datanodedetails").submit(function (e) {
 });
 
 function enableRightFields(type) {
-  if (type == 'numeric' | type == 'categorical') {
+  if (type == 'numeric' | type == 'categorical' | type == 'codeleaf') {
     $('.label').prop('hidden', false);
     $('.clinicaldata').prop('hidden', false);
     $('.tagdata').prop('hidden', true);
