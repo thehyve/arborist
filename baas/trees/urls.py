@@ -24,8 +24,8 @@ urlpatterns = [
     ),
     url(
         regex=r'^(?P<study_slug>[\w.@+-]+)/(?P<version>[\d.-]+)/$',
-        view=views.TreeDetailView.as_view(),
-        name='detail'
+        view=views.JustJSONView.as_view(),
+        name='json'
     ),
     url(
         regex=r'^(?P<study_slug>[\w.@+-]+)/$',

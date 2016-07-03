@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 import json
 
 from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView, TemplateView
+from django.views.generic import ListView, UpdateView, TemplateView, View
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
@@ -70,9 +70,8 @@ class AddTreeFileView(PermissionRequiredMixin, UpdateView):
 
         self.create_group(study.slug, request.user, study)
 
-        return HttpResponseRedirect(reverse('trees:detail',
-                                            kwargs={'study_slug': study.slug,
-                                                    'version': tree.version})
+        return HttpResponseRedirect(reverse('trees:detail_list',
+                                            kwargs={'study_slug': study.slug})
                                     )
 
     def create_group(self, name, user, study):
@@ -94,11 +93,12 @@ class StudyListView(LoginRequiredMixin, ListView):
         return allowed_objects.order_by('name')
 
 
-class TreeDetailView(LoginRequiredMixin, DetailView):
+class JustJSONView(LoginRequiredMixin, View):
     model = Tree
-    # These next two lines tell the view to index lookups by username
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
+
+    def get(self, *args, **kwargs):
+        tree = self.get_object()
+        return HttpResponse(json.dumps(tree.json), content_type='application/json')
 
     def get_object(self):
         study_slug = self.kwargs['study_slug']
@@ -107,7 +107,7 @@ class TreeDetailView(LoginRequiredMixin, DetailView):
 
     @permission_required_or_403('trees.change_study', (Study, 'slug', 'study_slug'))
     def dispatch(self, *args, **kwargs):
-        return super(TreeDetailView, self).dispatch(*args, **kwargs)
+        return super(JustJSONView, self).dispatch(*args, **kwargs)
 
     @property
     def user(self):
