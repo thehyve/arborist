@@ -1,4 +1,30 @@
 /* These styles are generated from project.scss. */
+body {
+  padding-top: 70px;
+  background: url('../images/boris_full.svg')  no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.list-viewport {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  min-height: 200px;
+  max-height: 100%;
+  float: right;
+  width: 50%;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.container {
+  height: calc(100% - 75px);
+}
 
 .alert-debug {
   color: black;

@@ -5,38 +5,45 @@
 
 {% block content %}
 
-<div class="container">
+<div class="list-viewport">
 
-    <h2>Trees for project: {{ view.study.name }}</h2>
-    <div class="list-group">
-        {% for tree in view.versions %}
-          <a href="{% url 'trees:edit' tree.study.slug tree.version %}" class="list-group-item">
-            <h4 class="list-group-item-heading">({{ tree.version }}) {{ view.study.name }} by {{ tree.created_by }} on {{ tree.save_date }}</h4>
-          </a>
-        {% endfor %}
+  <h3 align="center">{{ view.study.name }}</h3>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>By</th>
+          <th>Date</th>
+        </tr>
+      </thead>
 
-    </div>
+    {% for tree in view.versions %}
+      <tr class='clickable-row' onclick="window.document.location='{% url 'trees:edit' tree.study.slug tree.version %}';">
+        <td>{{ tree.version }}</td>
+        <td>{{ tree.created_by }}</td>
+        <td>{{ tree.save_date|date:"j-n-Y  G:i" }}</td>
+      </tr>
+    {% endfor %}
+    </table>
 
-  <hr>
-
-    <h2>Users with permission to edit</h2>
-    <div class="list-group">
-        {% for user in view.editors %}
-          <a href="{% url 'users:detail' user.username %}" class="list-group-item">
-            <h4 class="list-group-item-heading">{{ user.username }}</h4>
-          </a>
-        {% endfor %}
-    </div>
 
   {% if perms.trees.add_tree %}
-  <hr>
+  <div style="margin-top: 0.5cm;">
+    <h2>Users with permission to edit</h2>
+    <table class="table table-hover">
+      {% for user in view.editors %}
+        <tr class='clickable-row' onclick="window.document.location='{% url 'users:detail' user.username %}';">
+          <td>{{ user.username }}</td>
+        </tr>
+      {% endfor %}
+    </table>
 
     <div class="col-sm-12 ">
-      <a class="btn btn-primary" href="{% url 'users:add_to_group' view.study.slug %}">Add user to group for access</a>
+      <a class="btn btn-sm btn-primary" href="{% url 'users:add_to_group' view.study.slug %}">Add user to group for access</a>
+    </div>
   </div>
-
+    {% endif %}
 </div>
-  {% endif %}
 {% endblock %}
 
 
