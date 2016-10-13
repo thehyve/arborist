@@ -5,9 +5,8 @@
 
 {% block content %}
 
-<div class="container">
-
-    <h2>Give user access to {{ view.study }}</h2>
+ <div class="col-md-5">
+    <h2>Grant access: {{ view.study }}</h2>
 
     {% with view.has_access as has_rights %}
     <div class="list-group">
@@ -24,7 +23,6 @@
         {% endfor %}
       {% endwith %}
     </div>
-
 </div>
 
 {% endblock content %}

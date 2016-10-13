@@ -24,6 +24,17 @@ body {
 }
 .container {
   height: calc(100% - 75px);
+  max-width: 1280px;
+}
+
+.col-md-5 {
+  float:right;
+  width:60%;
+}
+
+.col-sm-12 {
+  float:right;
+  width:60%;
 }
 
 .alert-debug {
