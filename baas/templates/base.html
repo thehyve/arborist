@@ -15,7 +15,7 @@
 
     {% block css %}
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css">
 
     <!-- Your stuff: Third-party css libraries go here -->
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
@@ -51,7 +51,7 @@
 
 
 
-            <ul class="nav navbar-nav float-right">
+            <ul class="nav navbar-nav " style="float: right;">
               {% if perms.trees.add_tree %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'trees:add' %}">{% trans "Upload Tree File" %}</a>
