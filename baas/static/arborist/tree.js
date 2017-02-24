@@ -82,24 +82,71 @@ function add_tags_feedback (obj) {
     }
 };
 
-$("form#datanodedetails").submit(function (e) {
-  e.preventDefault();
-  if (node.type == 'tag') {
+function color_bg (id, color) {
+    var item = document.getElementById(id)
+    if (item) {
+        item.style.backgroundColor = color;
+        setTimeout(function () {item.style.backgroundColor = ""; }, 2000 );
 
+    }
+}
+
+function field_update (id) {
+    color_bg(id, '#bafbaf')
+}
+
+function field_empty (id) {
+    color_bg(id, '#ffc3c3')
+}
+
+function process_tags (obj) {
     // Reset tags object to clear all existing tags
+    var old_tags = node.data.tags;
     node.data.tags = {};
     var rowCount = $("#tagtable-body tr").length;
 
     for (i = 1; i <= rowCount; i++) {
-      var title = $("#tagname_" + i).val();
-      var desc = $("#tagdesc_" + i).val();
-      var weight = $("#tagweight_" + i).val();
-      // If title and description are present, store it to the tags.
-      if (title !== "" & desc !== ""){
-        node.data.tags[title] = [desc, weight];
+        var title = $("#tagname_" + i).val();
+        var desc = $("#tagdesc_" + i).val();
+        var weight = $("#tagweight_" + i).val();
+
+
+        if (title === "" & desc !== "") {
+            field_empty('tagname_' + i);
+        } else if (desc === "" & title !== "") {
+            field_empty('tagdesc_' + i);
         }
-      }
+
+        var entry = old_tags[title];
+        if (typeof entry !== 'undefined') {
+            if ((desc !== "") & (entry[0] !== desc)){
+                field_update("tagdesc_" + i);
+            }
+            if ((weight !== "") & (entry[1] !== weight)){
+                field_update("tagweight_" + i);
+            }
+        } else if (title !== "" & desc !== "") {
+            field_update("tagname_" + i);
+            field_update("tagdesc_" + i);
+            field_update("tagweight_" + i);
+        }
+
+        // If title and description are present, store it to the tags.
+        if ( title !== "" & desc !== "" & typeof title !== "undefined" & typeof desc !=="undefined") {
+            if (weight === "") {
+                var weight = 3
+            }
+            console.log('Adding tag: ' + title + ': ' + desc + ' (' + weight + ').')
+            node.data.tags[title] = [desc, weight];
+        }
+    }
     add_tags_feedback()
+}
+
+$("form#datanodedetails").submit(function (e) {
+  e.preventDefault();
+  if (node.type == 'tag') {
+    process_tags()
   } else if (typeof node != 'undefined') {
 
     var text = $("#datalabel").val();
@@ -111,6 +158,13 @@ $("form#datanodedetails").submit(function (e) {
 
     node.data['m5'] = $("#magic5").val();
     node.data['m6'] = $("#magic6").val();
+
+    if ($("#fc").prop('checked')) {
+        node.data['cty'] = 'CATEGORICAL'
+    } else {
+        node.data['cty'] = ''
+    }
+
     var type = node.type;
 
     if (updated) {
@@ -139,16 +193,27 @@ function enableRightFields(type) {
   if (type == 'numeric' | type == 'categorical' | type == 'codeleaf' | type == 'empty' ) {
     $('.label').prop('hidden', false);
     $('.clinicaldata').prop('hidden', false);
-    $('.tagdata').prop('hidden', true);
+    $('.tag-container').prop('hidden', true);
+    $('.hdtagdata').prop('hidden', true);
     $('.dfv').prop('hidden', true);
   } else if (type == 'tag') {
-    $('.tagdata').prop('hidden', false);
+    console.log('Enable tags fields.')
+    $('.tag-container').prop('hidden', false);
     $('.clinicaldata').prop('hidden', true);
     $('.label').prop('hidden', true);
+    $('.hdtagdata').prop('hidden', true);
+    $('.dfv').prop('hidden', true);
+  } else if (type == 'highdim') {
+    console.log('Enable highdim fields.')
+    $('.tag-container').prop('hidden', true);
+    $('.clinicaldata').prop('hidden', true);
+    $('.hdtagdata').prop('hidden', false);
+    $('.label').prop('hidden', false);
     $('.dfv').prop('hidden', true);
   } else {
     $('.label').prop('hidden', false);
-    $('.tagdata').prop('hidden', true);
+    $('.tag-container').prop('hidden', true);
+    $('.hdtagdata').prop('hidden', true);
     $('.clinicaldata').prop('hidden', true);
     $('.dfv').prop('hidden', true);
 
@@ -228,7 +293,7 @@ function customMenu(node) {
 function createTagRow(){
     // Add new row to tags table and return the row number
     var rowCount = $("#tagtable-body tr").length;
-    var counter = rowCount + 1;
+    var counter = rowCount / 2 + 1;
 
     var title_id = 'tagname_' + counter;
     var desc_id = 'tagdesc_' + counter;
@@ -236,17 +301,16 @@ function createTagRow(){
 
     var some_style = ' class="form-control form-control-sm" style="width: 100%; "'
 
-    var tdInput = '<input type="text" '+some_style+' placeholder="Title..." id="' + title_id + '" />';
-    var tdDesc = '<input type="text" '+some_style+' placeholder="Description..." id="' + desc_id + '" />';
-    var tdWeight = '<input type="number" class="form-control form-control-sm"  min="1" max="10" value="3" id="' + weight_id +'" />';
+    var tdInput = '<input placeholder="Title..." type="text" class="form-control form-control-sm tag-title" id="' + title_id + '" />';
+    var tdDesc = '<input type="text" placeholder="Description..." class="form-control form-control-sm tag-description" rows="1" id="' + desc_id + '" />';
+    var tdWeight = '<input type="number" class="form-control form-control-sm tag-weight" min="1" max="10" value="3" id="' + weight_id +'" />';
 
     var tr = $('<tr></tr>')
-        .append('<td>'+tdInput+'</td>')
-        .append('<td>'+tdDesc+'</td>')
-        .append('<td>'+tdWeight+'</td>');
+        .append('<td style="padding-left: 5px;" >'+tdInput+'</td>')
+        .append('<td style="padding-right: 5px;">'+tdWeight+'</td>');
 
     $('#tagtable-body').append(tr);
-
+    $('#tagtable-body').append('<tr><td colspan=2 style="padding-left: 5px; padding-right: 5px; " >'+tdDesc+'</td></tr>');
     $('#' + title_id).focus()
 
     return counter
@@ -306,9 +370,21 @@ $('#treediv')
         if (typeof node.data['m6'] !== 'undefined') {
           $("#magic6").val(node.data['m6']);
         }
+        if (node.data['cty'] === 'CATEGORICAL') {
+          $("#fc").prop('checked', true);
+        }
         if ((node.type == 'alpha') && (node.data['dfv'] !== node.text)) {
           $('.dfv').prop('hidden', false);
           $("#datafile_value").text(node.data['dfv']);
+        }
+        if ((node.type == 'highdim') && (node.data.hd_args !== 'undefined')) {
+          $("#hd_type").text(node.data.hd_args['hd_type']);
+          $("#hd_sample").text(node.data.hd_args['hd_sample']);
+          $("#hd_tissue").text(node.data.hd_args['hd_tissue']);
+          $("#pl_genome_build").text(node.data.hd_args['pl_genome_build']);
+          $("#pl_id").text(node.data.hd_args['pl_id']);
+          $("#pl_marker_type").text(node.data.hd_args['pl_marker_type']);
+          $("#pl_title").text(node.data.hd_args['pl_title']);
         }
 
         // This way to add multiple tags to 'tags' dictionary in 'data'
@@ -355,9 +431,6 @@ $('#treediv')
       "types": {
         "default": {
           "icon": "/static/images/tree/folder.gif",
-        },
-        "study": {
-          "icon": "/static/images/tree/study.png",
         },
         "alpha": {
           "icon": "/static/images/tree/alpha.gif",
