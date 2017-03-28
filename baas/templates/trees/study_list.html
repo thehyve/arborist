@@ -5,18 +5,22 @@
 
 {% block content %}
 
-<div class="list-viewport">
-  <h3>List of Projects</h3>
+<div class="list-container">
+  <div class="header-bar">
+    <span class="header-title">List of Projects</span>
+  </div>
+  <div class="list-viewport">
     <table class="table table-hover">
       {% for study in study_list %}
-        <tr class='clickable-row' onclick="window.document.location='{% url 'trees:detail_list' study.slug %}';">
-          <td><h5>{{ study.name }}</h5></td>
-        </tr>
+      <tr class='clickable-row' onclick="window.document.location='{% url 'trees:detail_list' study.slug %}';">
+        <td><h5>{{ study.name }}</h5></td>
+      </tr>
       {% endfor %}
     </table>
     {% if not study_list %}
-        <i>Bummer... It appears you do not have access to any studies, but you can sure try
-        out <a href="{% url 'demo' %}">the demo</a>.</i>
+    <i>Bummer... It appears you do not have access to any studies, but you can sure try
+      out <a href="{% url 'demo' %}">the demo</a>.</i>
     {% endif %}
+  </div>
 </div>
 {% endblock %}

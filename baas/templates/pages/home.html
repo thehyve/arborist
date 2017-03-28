@@ -2,9 +2,11 @@
 {% load static %}
 
 {% block content %}
+<div class="list-container">
+    <div class="header-bar">
+     <span class="header-title">Welcome to tranSMART Arborist as a Service.</span>
+   </div>
 <div class="list-viewport">
-  <h4>Welcome to tranSMART Arborist as a Service.</h4>
-  <hr>
   <h6>What does this do?</h6>
     <p>With tranSMART Arborist you can interactively shape the tranSMART concept tree without any required technical expertise.</p>
 
@@ -13,12 +15,12 @@
 
   <h6>I am new, where do I go?</h6>
     <p>To test the functionality of The Arborist, you can try the TraIT Cell line use case demo
-      study <a href="{% url 'demo' %}"><u><b>here</b></u></a>.
+      study <a href="{% url 'demo' %}">demo study</a> here.
     </p>
 
   <h6>How can I use this for my own projects?</h6>
     <p>Go to our github for
-      <a target="_blank" href="https://www.github.com/thehyve/tmtk/"><i>tmtk</i></a>,
+      <a target="_blank" href="https://www.github.com/thehyve/tmtk/">tmtk</a>,
       a Python package that allows you to run The Arborist on your own local data. Note that
       your tranSMART study must be formatted appropriately for
       <a target="_blank" href="https://www.github.com/thehyve/transmart-batch/">transmart-batch</a>.
@@ -28,4 +30,5 @@
 
     </p>
 </div>
+  </div>
 {% endblock %}

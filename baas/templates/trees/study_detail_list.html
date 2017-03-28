@@ -4,10 +4,11 @@
 {% block title %}Study Tree Files{% endblock %}
 
 {% block content %}
-
+<div class="list-container">
+  <div class="header-bar">
+     <span class="header-title">{{ view.study.name }}</span>
+   </div>
 <div class="list-viewport">
-
-  <h3 align="center">{{ view.study.name }}</h3>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -29,7 +30,7 @@
 
   {% if perms.trees.add_tree %}
   <div style="margin-top: 0.5cm;">
-    <h2>Users with permission to edit</h2>
+    <h6>Users with permission to edit</h6>
     <table class="table table-hover">
       {% for user in view.editors %}
         <tr class='clickable-row' onclick="window.document.location='{% url 'users:detail' user.username %}';">
@@ -39,10 +40,11 @@
     </table>
 
     <div>
-      <a class="btn btn-sm btn-primary" href="{% url 'users:add_to_group' view.study.slug %}">Add user to group for access</a>
+      <a class="btn btn-sm btn-primary" style="margin: 10px; " href="{% url 'users:add_to_group' view.study.slug %}">Add user to group for access</a>
     </div>
   </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}
 
