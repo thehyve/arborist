@@ -3,16 +3,14 @@ baas
 
 Boris as a Service
 
-.. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
-     :target: https://github.com/pydanny/cookiecutter-django/
-     :alt: Built with Cookiecutter Django
-
 
 When to use
 ------------
 Specifically created to improve collaboration between TranSMART ETL specialists and non technical.
 
-Technical users can use the TranSMART curation Toolkit (tmtk) to create input files to help non technical domain specialists shape the characteristic TranSMART concept tree to their liking.
+Technical users can use the TranSMART curation Toolkit (`tmtk`_) to create input files to help non technical domain specialists shape the characteristic TranSMART concept tree to their liking. This project can then be used to collaborate with non technical researchers.
+
+.. _tmtk: https://github.com/thehyve/tmtk
 
 Settings
 ------------
