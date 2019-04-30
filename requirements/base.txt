@@ -44,5 +44,5 @@ django-redis==4.4.2
 redis>=2.10.0
 
 # Your custom requirements go here
-jsonfield
-django-guardian
+jsonfield==1.0.3
+django-guardian==1.4.4
